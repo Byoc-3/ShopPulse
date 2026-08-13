@@ -1,14 +1,15 @@
 // Mock cart data — this will later be replaced with real cart state
 let cartItems = [
-  { id: 1, name: "AirPods Pro", price: 250000, quantity: 2, image: "https://via.placeholder.com/60" },
-  { id: 2, name: "Smart Watch", price: 180000, quantity: 1, image: "https://via.placeholder.com/60" },
-  { id: 3, name: "Leather Handbag", price: 40000, quantity: 1, image: "https://via.placeholder.com/60" }
+  { id: 1, name: "AirPods Pro", price: 250000, quantity: 2, image: "https://placehold.co/60x60/f0f0f0/333?text=AirPods" },
+  { id: 2, name: "Smart Watch", price: 180000, quantity: 1, image: "https://placehold.co/60x60/f0f0f0/333?text=Watch" },
+  { id: 3, name: "Leather Handbag", price: 40000, quantity: 1, image: "https://placehold.co/60x60/f0f0f0/333?text=Bag" }
 ];
 
 // Grab the elements we need
 const cartIconBtn = document.getElementById('cartIconBtn');
 const closeCartBtn = document.getElementById('closeCartBtn');
 const cartDrawer = document.getElementById('cartDrawer');
+const checkoutBtn = document.getElementById('checkoutBtn');
 const overlay = document.getElementById('overlay');
 
 // Function to open the cart
@@ -25,6 +26,9 @@ function closeCart() {
 
 // Event listeners
 cartIconBtn.addEventListener('click', openCart);
+checkoutBtn.addEventListener('click', function() {
+  window.location.href = 'checkout.html';
+});
 closeCartBtn.addEventListener('click', closeCart);
 overlay.addEventListener('click', closeCart); // clicking outside also closes it
 

@@ -1,0 +1,84 @@
+.confirmation-container {
+  max-width: 480px;
+  margin: 80px auto;
+  padding: 40px 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  text-align: center;
+}
+
+/* Green checkmark circle */
+.checkmark-circle {
+  width: 90px;
+  height: 90px;
+  background-color: #2e7d32; /* green */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 25px auto;
+}
+
+.checkmark {
+  color: white;
+  font-size: 45px;
+  font-weight: bold;
+}
+
+.confirmation-container h1 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.sub-text {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+/* Receipt box */
+.receipt-box {
+  background-color: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.receipt-row:last-child {
+  border-bottom: none;
+}
+
+.receipt-row span:first-child {
+  color: #777;
+}
+
+.receipt-row span:last-child {
+  font-weight: 600;
+}
+
+/* Continue shopping button */
+.back-home-btn {
+  display: inline-block;
+  width: 100%;
+  padding: 14px;
+  background-color: #1a1a1a;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.back-home-btn:hover {
+  background-color: #333;
+}

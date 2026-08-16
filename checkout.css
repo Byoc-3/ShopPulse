@@ -1,0 +1,96 @@
+.checkout-container {
+  display: flex;
+  gap: 40px;
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+  flex-wrap: wrap;
+}
+
+/* LEFT SIDE: Customer Info */
+.customer-info {
+  flex: 1;
+  min-width: 320px;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.customer-info h2 {
+  font-size: 15px;
+  letter-spacing: 1px;
+  margin-bottom: 25px;
+}
+
+.customer-info label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  margin-top: 18px;
+}
+
+.required {
+  color: #d33;
+}
+
+.customer-info input,
+.customer-info textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  background-color: #fafafa;
+}
+
+.customer-info textarea {
+  resize: vertical;
+  min-height: 70px;
+}
+
+.place-order-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: #1a1a1a;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  margin-top: 25px;
+}
+
+.place-order-btn:hover {
+  background-color: #333;
+}
+
+/* RIGHT SIDE: Order Summary */
+.order-summary {
+  flex: 1;
+  min-width: 320px;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  height: fit-content;
+}
+
+.order-summary h2 {
+  font-size: 15px;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.order-summary .summary-row {
+  margin-top: 15px;
+}

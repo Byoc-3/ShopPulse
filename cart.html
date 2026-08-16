@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopPulse - Cart</title>
+  <link rel="stylesheet" href="cart.css">
+</head>
+<body>
+
+ <!-- Simple nav just for testing the cart -->
+  <nav class="navbar">
+    <div class="logo">LUXE.</div>
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">Shop</a>
+      <a href="#">Categories</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="cart-icon" id="cartIconBtn">
+      🛒 <span class="cart-count" id="cartCount">0</span>
+    </div>
+  </nav>
+
+  <!-- Cart Drawer -->
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h3>YOUR CART</h3>
+      <span class="close-btn" id="closeCartBtn">&times;</span>
+    </div>
+
+    <div class="cart-items" id="cartItemsContainer">
+      <!-- Cart items will be inserted here by JavaScript -->
+    </div>
+
+    <div class="cart-summary">
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span id="subtotal">₦0</span>
+      </div>
+      <div class="summary-row">
+        <span>Delivery</span>
+        <span id="delivery">₦5,000</span>
+      </div>
+      <div class="summary-row total-row">
+        <span>TOTAL</span>
+        <span id="total">₦0</span>
+      </div>
+      <button class="checkout-btn" id="checkoutBtn">CHECKOUT</button>
+    </div>
+  </div>
+
+  <!-- Dark overlay when cart is open -->
+  <div class="overlay" id="overlay"></div>
+
+  <script src="cart.js"></script>
+</body>
+</html>

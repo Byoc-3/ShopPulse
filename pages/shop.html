@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
@@ -9,10 +10,7 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>LUXE | Shop</title>
-
-    <!-- Because this file is inside /pages,
-         we go back one folder to reach CSS -->
+    <title>ShopPulse | Shop</title>
 
     <link
         rel="stylesheet"
@@ -31,6 +29,7 @@
 
 </head>
 
+
 <body>
 
     <!-- ================= HEADER ================= -->
@@ -39,13 +38,17 @@
 
         <nav class="navbar">
 
+            <!-- LOGO -->
+
             <a
                 href="../index.html"
                 class="logo"
             >
-                ShopPulse.
+                ShopPulse
             </a>
 
+
+            <!-- NAVIGATION -->
 
             <ul class="nav-links">
 
@@ -85,16 +88,22 @@
             </ul>
 
 
+            <!-- NAV ACTIONS -->
+
             <div class="nav-actions">
 
                 <button
+                    type="button"
                     class="icon-button"
                     aria-label="Search"
+                    id="nav-search-button"
                 >
                     🔍
                 </button>
 
+
                 <button
+                    type="button"
                     class="icon-button"
                     aria-label="Account"
                 >
@@ -102,9 +111,10 @@
                 </button>
 
 
-                <!-- CART BUTTON -->
+                <!-- CART -->
 
                 <button
+                    type="button"
                     class="cart-icon cart-open-button"
                     id="open-cart"
                     aria-label="Open shopping cart"
@@ -128,17 +138,17 @@
     </header>
 
 
-    <!-- ================= SHOP MAIN ================= -->
+    <!-- ================= MAIN ================= -->
 
     <main class="shop-page">
 
 
-        <!-- SHOP HEADER -->
+        <!-- ================= SHOP HEADER ================= -->
 
         <section class="shop-header">
 
             <p class="section-label">
-                OUR STORE
+                SHOPPULSE STORE
             </p>
 
             <h1>
@@ -146,8 +156,8 @@
             </h1>
 
             <p>
-                Browse our collection and find something
-                made for you.
+                Discover products across technology,
+                fashion, beauty, accessories and home.
             </p>
 
         </section>
@@ -158,7 +168,7 @@
         <section class="shop-container">
 
 
-            <!-- ================= SIDEBAR ================= -->
+            <!-- ================= CATEGORY SIDEBAR ================= -->
 
             <aside
                 class="category-sidebar"
@@ -170,64 +180,121 @@
                 </h2>
 
 
+                <!-- ALL -->
+
                 <button
+                    type="button"
                     class="category-button active"
                     data-category="All"
                 >
-                    All Products
+                    <span>
+                        All Products
+                    </span>
+
+                    <span class="category-number">
+                        30
+                    </span>
                 </button>
 
 
+                <!-- ELECTRONICS -->
+
                 <button
+                    type="button"
                     class="category-button"
                     data-category="Electronics"
                 >
-                    Electronics
+                    <span>
+                        Electronics
+                    </span>
+
+                    <span class="category-number">
+                        6
+                    </span>
                 </button>
 
 
+                <!-- FASHION -->
+
                 <button
+                    type="button"
                     class="category-button"
                     data-category="Fashion"
                 >
-                    Fashion
+                    <span>
+                        Fashion
+                    </span>
+
+                    <span class="category-number">
+                        6
+                    </span>
                 </button>
 
 
+                <!-- BEAUTY -->
+
                 <button
+                    type="button"
                     class="category-button"
                     data-category="Beauty"
                 >
-                    Beauty
+                    <span>
+                        Beauty
+                    </span>
+
+                    <span class="category-number">
+                        6
+                    </span>
                 </button>
 
 
+                <!-- ACCESSORIES -->
+
                 <button
+                    type="button"
                     class="category-button"
                     data-category="Accessories"
                 >
-                    Accessories
+                    <span>
+                        Accessories
+                    </span>
+
+                    <span class="category-number">
+                        6
+                    </span>
                 </button>
 
 
+                <!-- HOME & LIVING -->
+
                 <button
+                    type="button"
                     class="category-button"
                     data-category="Home & Living"
                 >
-                    Home & Living
+                    <span>
+                        Home & Living
+                    </span>
+
+                    <span class="category-number">
+                        6
+                    </span>
                 </button>
 
             </aside>
 
 
-            <!-- ================= PRODUCTS ================= -->
+            <!-- ================= PRODUCTS SECTION ================= -->
 
             <section class="products-section">
 
 
-                <!-- SEARCH + SORT -->
+                <!-- SHOP CONTROLS -->
 
                 <div class="shop-controls">
+
+
+                    <!-- SEARCH -->
 
                     <div class="search-container">
 
@@ -242,17 +309,21 @@
                             type="search"
                             id="product-search"
                             placeholder="Search products..."
+                            autocomplete="off"
                         >
 
                         <button
                             type="button"
                             id="search-button"
+                            aria-label="Search"
                         >
                             🔍
                         </button>
 
                     </div>
 
+
+                    <!-- SORT -->
 
                     <div class="sort-container">
 
@@ -285,34 +356,49 @@
                 </div>
 
 
-                <!-- PRODUCT COUNT -->
+                <!-- PRODUCTS TOP -->
 
                 <div class="products-top">
 
-                    <p id="product-count">
-                        Showing all products
-                    </p>
+                    <div>
+
+                        <p
+                            id="product-count"
+                            aria-live="polite"
+                        >
+                            Showing 30 products
+                        </p>
+
+                    </div>
 
                 </div>
 
 
-                <!-- JAVASCRIPT WILL RENDER PRODUCTS HERE -->
+                <!-- ================= PRODUCT GRID ================= -->
+
+                <!--
+                    JavaScript will automatically
+                    insert the product cards here.
+                -->
 
                 <div
                     class="product-grid"
                     id="product-grid"
                 >
-
                 </div>
 
 
-                <!-- NO RESULTS MESSAGE -->
+                <!-- ================= NO RESULTS ================= -->
 
                 <div
                     class="no-results"
                     id="no-results"
                     hidden
                 >
+
+                    <div class="no-results-icon">
+                        🔍
+                    </div>
 
                     <h2>
                         No products found
@@ -321,6 +407,14 @@
                     <p>
                         Try another search or category.
                     </p>
+
+                    <button
+                        type="button"
+                        class="secondary-button"
+                        id="clear-search"
+                    >
+                        View All Products
+                    </button>
 
                 </div>
 
@@ -349,6 +443,7 @@
         >
 
             <button
+                type="button"
                 class="modal-close"
                 id="close-product-modal"
                 aria-label="Close product details"
@@ -358,6 +453,9 @@
 
 
             <div class="modal-product-content">
+
+
+                <!-- PRODUCT IMAGE -->
 
                 <div class="modal-product-image">
 
@@ -369,6 +467,8 @@
 
                 </div>
 
+
+                <!-- PRODUCT INFORMATION -->
 
                 <div class="modal-product-info">
 
@@ -390,7 +490,10 @@
                     </p>
 
 
-                    <div class="product-rating">
+                    <div
+                        class="product-rating"
+                        aria-label="Product rating"
+                    >
 
                         ★★★★☆
 
@@ -415,23 +518,29 @@
                         <button
                             type="button"
                             id="modal-decrease"
+                            aria-label="Decrease quantity"
                         >
                             −
                         </button>
+
 
                         <span id="modal-quantity">
                             1
                         </span>
 
+
                         <button
                             type="button"
                             id="modal-increase"
+                            aria-label="Increase quantity"
                         >
                             +
                         </button>
 
                     </div>
 
+
+                    <!-- ADD TO CART -->
 
                     <button
                         type="button"
@@ -451,7 +560,7 @@
 
 
     <!-- ================================================= -->
-    <!-- CART DRAWER -->
+    <!-- CART OVERLAY -->
     <!-- ================================================= -->
 
     <div
@@ -462,11 +571,16 @@
     </div>
 
 
+    <!-- ================================================= -->
+    <!-- CART DRAWER -->
+    <!-- ================================================= -->
+
     <aside
         class="cart-drawer"
         id="cart-drawer"
         aria-label="Shopping cart"
     >
+
 
         <!-- CART HEADER -->
 
@@ -475,7 +589,7 @@
             <div>
 
                 <p class="section-label">
-                    SHOPPING
+                    SHOPPULSE
                 </p>
 
                 <h2>
@@ -486,6 +600,7 @@
 
 
             <button
+                type="button"
                 class="cart-close"
                 id="close-cart"
                 aria-label="Close shopping cart"
@@ -502,9 +617,7 @@
             class="cart-items"
             id="cart-items"
         >
-
-            <!-- JavaScript inserts cart items here -->
-
+            <!-- JavaScript inserts items here -->
         </div>
 
 
@@ -528,6 +641,7 @@
             </p>
 
             <button
+                type="button"
                 class="secondary-button"
                 id="continue-shopping"
             >
@@ -627,8 +741,11 @@
     <!-- ================= JAVASCRIPT ================= -->
 
     <script src="../js/products.js"></script>
+
     <script src="../js/cart.js"></script>
+
     <script src="../js/app.js"></script>
 
 </body>
+
 </html>

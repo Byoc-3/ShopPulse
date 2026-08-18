@@ -128,6 +128,13 @@ function openProductModal(productId) {
     modalPrice.textContent = formatPrice(currentProduct.price);
     modalCategory.textContent = currentProduct.category;
     modalDescription.textContent = currentProduct.description;
+    const ratingElement =
+    document.querySelector(".product-rating span");
+
+if (ratingElement) {
+    ratingElement.textContent =
+        currentProduct.rating;
+}
 
     modalQuantity.textContent = selectedQuantity;
 
@@ -259,6 +266,35 @@ sortSelect.addEventListener(
     "change",
     applySearchAndSort
 );
+// ======================================
+// CLEAR SEARCH
+// ======================================
+
+const clearSearchBtn =
+    document.getElementById("clear-search");
+
+if (clearSearchBtn) {
+
+    clearSearchBtn.addEventListener(
+        "click",
+        () => {
+
+            searchInput.value = "";
+
+            filteredProducts = [...products];
+
+            categoryButtons.forEach(btn =>
+                btn.classList.remove("active")
+            );
+
+            categoryButtons[0].classList.add("active");
+
+            renderProducts(products);
+
+            noResults.hidden = true;
+        }
+    );
+}
 
 // ======================================
 // EVENT DELEGATION

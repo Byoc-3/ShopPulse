@@ -1,345 +1,855 @@
-```javascript
-// ======================================
-// SHOPPULSE APP.JS
-// Product Rendering + Search + Filter +
-// Sort + Product Modal + Add To Cart
-// ======================================
+// =====================================================
+// SHOPPULSE - PRODUCT FILTERING & PRODUCT SELECTION
+// =====================================================
 
-let filteredProducts = [...products];
 
-let currentProduct = null;
-let selectedQuantity = 1;
-
-// ======================================
-// ELEMENTS
-// ======================================
+// -----------------------------------------------------
+// 1. GET ELEMENTS FROM HTML
+// -----------------------------------------------------
 
 const productGrid = document.getElementById("product-grid");
+
+const productSearch = document.getElementById("product-search");
+
+const searchButton = document.getElementById("search-button");
+
+const sortProducts = document.getElementById("sort-products");
+
 const productCount = document.getElementById("product-count");
+
 const noResults = document.getElementById("no-results");
 
-const searchInput = document.getElementById("product-search");
-const sortSelect = document.getElementById("sort-products");
+const clearSearch = document.getElementById("clear-search");
 
-const categoryButtons = document.querySelectorAll(".category-button");
+const categoryButtons =
+    document.querySelectorAll(".category-button");
 
-// Modal
-const productModal = document.getElementById("product-modal");
-const closeModalBtn = document.getElementById("close-product-modal");
 
-const modalImage = document.getElementById("modal-product-image");
-const modalName = document.getElementById("modal-product-name");
-const modalPrice = document.getElementById("modal-product-price");
-const modalCategory = document.getElementById("modal-product-category");
-const modalDescription = document.getElementById("modal-product-description");
+// Product modal
 
-const modalQuantity = document.getElementById("modal-quantity");
-const modalIncrease = document.getElementById("modal-increase");
-const modalDecrease = document.getElementById("modal-decrease");
+const productModal =
+    document.getElementById("product-modal");
 
-const modalAddToCart = document.getElementById("modal-add-to-cart");
+const closeProductModal =
+    document.getElementById("close-product-modal");
 
-// ======================================
-// HELPERS
-// ======================================
+const modalProductImage =
+    document.getElementById("modal-product-image");
 
-function formatPrice(amount) {
-    return "₦" + amount.toLocaleString();
+const modalProductName =
+    document.getElementById("modal-product-name");
+
+const modalProductCategory =
+    document.getElementById("modal-product-category");
+
+const modalProductPrice =
+    document.getElementById("modal-product-price");
+
+const modalProductDescription =
+    document.getElementById("modal-product-description");
+
+const modalQuantity =
+    document.getElementById("modal-quantity");
+
+const modalDecrease =
+    document.getElementById("modal-decrease");
+
+const modalIncrease =
+    document.getElementById("modal-increase");
+
+const modalAddToCart =
+    document.getElementById("modal-add-to-cart");
+
+
+// -----------------------------------------------------
+// 2. SHOP STATE
+// -----------------------------------------------------
+
+let currentCategory = "All";
+
+let currentSearch = "";
+
+let currentSort = "featured";
+
+let selectedProduct = null;
+
+let selectedQuantity = 1;
+
+
+// -----------------------------------------------------
+// 3. FORMAT PRICE
+// -----------------------------------------------------
+
+function formatPrice(price) {
+
+    return new Intl.NumberFormat("en-NG", {
+        style: "currency",
+        currency: "NGN",
+        maximumFractionDigits: 0
+    }).format(price);
+
 }
 
-// ======================================
-// RENDER PRODUCTS
-// ======================================
 
-function renderProducts(productList) {
+// -----------------------------------------------------
+// 4. CREATE PRODUCT CARD
+// -----------------------------------------------------
 
-    productGrid.innerHTML = "";
+function createProductCard(product) {
 
-    if (productList.length === 0) {
-        noResults.hidden = false;
-        productCount.textContent = "0 products found";
-        return;
-    }
+    const card = document.createElement("article");
 
-    noResults.hidden = true;
+    card.classList.add("product-card");
 
-    productCount.textContent =
-        `Showing ${productList.length} product${productList.length !== 1 ? "s" : ""}`;
 
-    productList.forEach(product => {
+    card.innerHTML = `
 
-        const card = document.createElement("article");
+        <div class="product-image-container">
 
-        card.classList.add("product-card");
+            <img
+                src="${product.image}"
+                alt="${product.name}"
+                class="product-image"
+                loading="lazy"
+            >
 
-        card.innerHTML = `
-            <div class="product-image">
-                <img
-                    src="${product.image}"
-                    alt="${product.name}"
-                >
+            <button
+                type="button"
+                class="quick-view-button"
+                data-product-id="${product.id}"
+            >
+                Quick View
+            </button>
+
+        </div>
+
+
+        <div class="product-info">
+
+            <p class="product-category">
+                ${product.category}
+            </p>
+
+            <h3 class="product-name">
+                ${product.name}
+            </h3>
+
+
+            <div class="product-rating">
+
+                <span>
+                    ★★★★★
+                </span>
+
+                <small>
+                    ${product.rating}
+                </small>
+
             </div>
 
-            <div class="product-content">
 
-                <p class="product-category">
-                    ${product.category}
-                </p>
-
-                <h3>
-                    ${product.name}
-                </h3>
+            <div class="product-bottom">
 
                 <p class="product-price">
                     ${formatPrice(product.price)}
                 </p>
 
                 <button
-                    class="view-product-button"
-                    data-id="${product.id}"
+                    type="button"
+                    class="add-to-cart-button"
+                    data-product-id="${product.id}"
                 >
-                    View Product
+                    Add to Cart
                 </button>
 
             </div>
-        `;
+
+        </div>
+
+    `;
+
+
+    return card;
+
+}
+
+
+// -----------------------------------------------------
+// 5. DISPLAY PRODUCTS
+// -----------------------------------------------------
+
+function displayProducts(productList) {
+
+    productGrid.innerHTML = "";
+
+
+    // No products found
+
+    if (productList.length === 0) {
+
+        noResults.hidden = false;
+
+        productGrid.hidden = true;
+
+        productCount.textContent =
+            "No products found";
+
+        return;
+
+    }
+
+
+    // Products found
+
+    noResults.hidden = true;
+
+    productGrid.hidden = false;
+
+
+    productCount.textContent =
+        `Showing ${productList.length} product${productList.length === 1 ? "" : "s"}`;
+
+
+    productList.forEach(product => {
+
+        const card = createProductCard(product);
 
         productGrid.appendChild(card);
+
     });
+
 }
 
-// ======================================
-// PRODUCT MODAL
-// ======================================
 
-function openProductModal(productId) {
+// -----------------------------------------------------
+// 6. FILTER PRODUCTS
+// -----------------------------------------------------
 
-    currentProduct =
-        products.find(product => product.id === productId);
+function filterProducts() {
 
-    if (!currentProduct) return;
+    let filteredProducts = [...products];
 
-    selectedQuantity = 1;
 
-    modalImage.src = currentProduct.image;
-    modalImage.alt = currentProduct.name;
+    // -----------------------------
+    // CATEGORY FILTER
+    // -----------------------------
 
-    modalName.textContent = currentProduct.name;
-    modalPrice.textContent = formatPrice(currentProduct.price);
-    modalCategory.textContent = currentProduct.category;
-    modalDescription.textContent = currentProduct.description;
-    const ratingElement =
-    document.querySelector(".product-rating span");
+    if (currentCategory !== "All") {
 
-if (ratingElement) {
-    ratingElement.textContent =
-        currentProduct.rating;
-}
+        filteredProducts = filteredProducts.filter(
+            product =>
+                product.category === currentCategory
+        );
 
-    modalQuantity.textContent = selectedQuantity;
-
-    productModal.hidden = false;
-}
-
-function closeProductModal() {
-    productModal.hidden = true;
-}
-
-// ======================================
-// QUANTITY
-// ======================================
-
-modalIncrease.addEventListener("click", () => {
-    selectedQuantity++;
-    modalQuantity.textContent = selectedQuantity;
-});
-
-modalDecrease.addEventListener("click", () => {
-
-    if (selectedQuantity > 1) {
-        selectedQuantity--;
-        modalQuantity.textContent = selectedQuantity;
     }
 
-});
 
-// ======================================
-// ADD TO CART
-// ======================================
+    // -----------------------------
+    // SEARCH FILTER
+    // -----------------------------
 
-modalAddToCart.addEventListener("click", () => {
+    if (currentSearch.trim() !== "") {
 
-    if (!currentProduct) return;
+        const searchTerm =
+            currentSearch.toLowerCase().trim();
 
-    addToCart(
-        currentProduct.id,
-        selectedQuantity
-    );
 
-    closeProductModal();
-});
-
-// ======================================
-// FILTERING
-// ======================================
-
-function filterProducts(category) {
-
-    if (category === "All") {
-        filteredProducts = [...products];
-    }
-    else {
         filteredProducts =
-            products.filter(
-                product =>
-                    product.category === category
+            filteredProducts.filter(product =>
+
+                product.name
+                    .toLowerCase()
+                    .includes(searchTerm)
+
+                ||
+
+                product.category
+                    .toLowerCase()
+                    .includes(searchTerm)
+
+                ||
+
+                product.description
+                    .toLowerCase()
+                    .includes(searchTerm)
+
             );
+
     }
 
-    applySearchAndSort();
+
+    // -----------------------------
+    // SORT PRODUCTS
+    // -----------------------------
+
+    switch (currentSort) {
+
+
+        case "price-low":
+
+            filteredProducts.sort(
+                (a, b) => a.price - b.price
+            );
+
+            break;
+
+
+        case "price-high":
+
+            filteredProducts.sort(
+                (a, b) => b.price - a.price
+            );
+
+            break;
+
+
+        case "name":
+
+            filteredProducts.sort(
+                (a, b) =>
+                    a.name.localeCompare(b.name)
+            );
+
+            break;
+
+
+        case "featured":
+
+        default:
+
+            // Keep original order
+
+            break;
+
+    }
+
+
+    displayProducts(filteredProducts);
+
 }
+
+
+// -----------------------------------------------------
+// 7. CATEGORY BUTTONS
+// -----------------------------------------------------
 
 categoryButtons.forEach(button => {
 
     button.addEventListener("click", () => {
 
-        categoryButtons.forEach(btn =>
-            btn.classList.remove("active")
-        );
+        currentCategory =
+            button.dataset.category;
+
+
+        // Remove active state
+
+        categoryButtons.forEach(btn => {
+
+            btn.classList.remove("active");
+
+        });
+
+
+        // Add active state to clicked button
 
         button.classList.add("active");
 
-        filterProducts(
-            button.dataset.category
-        );
+
+        filterProducts();
+
     });
 
 });
 
-// ======================================
-// SEARCH
-// ======================================
 
-function applySearchAndSort() {
+// -----------------------------------------------------
+// 8. SEARCH INPUT
+// -----------------------------------------------------
 
-    const searchTerm =
-        searchInput.value
-            .trim()
-            .toLowerCase();
+if (productSearch) {
 
-    let result =
-        filteredProducts.filter(product =>
-            product.name
-                .toLowerCase()
-                .includes(searchTerm)
-        );
+    productSearch.addEventListener(
+        "input",
+        () => {
 
-    const sortValue = sortSelect.value;
+            currentSearch =
+                productSearch.value;
 
-    if (sortValue === "price-low") {
-        result.sort((a, b) =>
-            a.price - b.price
-        );
-    }
+            filterProducts();
 
-    if (sortValue === "price-high") {
-        result.sort((a, b) =>
-            b.price - a.price
-        );
-    }
+        }
+    );
 
-    if (sortValue === "name") {
-        result.sort((a, b) =>
-            a.name.localeCompare(b.name)
-        );
-    }
-
-    renderProducts(result);
 }
 
-searchInput.addEventListener(
-    "input",
-    applySearchAndSort
-);
 
-sortSelect.addEventListener(
-    "change",
-    applySearchAndSort
-);
-// ======================================
-// CLEAR SEARCH
-// ======================================
+// -----------------------------------------------------
+// 9. SEARCH BUTTON
+// -----------------------------------------------------
 
-const clearSearchBtn =
-    document.getElementById("clear-search");
+if (searchButton) {
 
-if (clearSearchBtn) {
-
-    clearSearchBtn.addEventListener(
+    searchButton.addEventListener(
         "click",
         () => {
 
-            searchInput.value = "";
+            currentSearch =
+                productSearch.value;
 
-            filteredProducts = [...products];
+            filterProducts();
 
-            categoryButtons.forEach(btn =>
-                btn.classList.remove("active")
-            );
-
-            categoryButtons[0].classList.add("active");
-
-            renderProducts(products);
-
-            noResults.hidden = true;
         }
     );
+
 }
 
-// ======================================
-// EVENT DELEGATION
-// ======================================
 
-productGrid.addEventListener("click", event => {
+// -----------------------------------------------------
+// 10. SORT PRODUCTS
+// -----------------------------------------------------
 
-    const button =
-        event.target.closest(
-            ".view-product-button"
+if (sortProducts) {
+
+    sortProducts.addEventListener(
+        "change",
+        () => {
+
+            currentSort =
+                sortProducts.value;
+
+            filterProducts();
+
+        }
+    );
+
+}
+
+
+// -----------------------------------------------------
+// 11. CLEAR SEARCH
+// -----------------------------------------------------
+
+if (clearSearch) {
+
+    clearSearch.addEventListener(
+        "click",
+        () => {
+
+            currentCategory = "All";
+
+            currentSearch = "";
+
+            currentSort = "featured";
+
+
+            productSearch.value = "";
+
+            sortProducts.value = "featured";
+
+
+            categoryButtons.forEach(button => {
+
+                button.classList.remove("active");
+
+            });
+
+
+            const allButton =
+                document.querySelector(
+                    '[data-category="All"]'
+                );
+
+
+            if (allButton) {
+
+                allButton.classList.add("active");
+
+            }
+
+
+            filterProducts();
+
+        }
+    );
+
+}
+
+
+// -----------------------------------------------------
+// 12. OPEN PRODUCT DETAILS
+// -----------------------------------------------------
+
+function openProductModal(productId) {
+
+    selectedProduct =
+        products.find(
+            product =>
+                product.id === Number(productId)
         );
 
-    if (!button) return;
 
-    const productId =
-        Number(button.dataset.id);
+    if (!selectedProduct) {
+        return;
+    }
 
-    openProductModal(productId);
-});
 
-closeModalBtn.addEventListener(
-    "click",
-    closeProductModal
-);
+    // Reset quantity
 
-productModal.addEventListener(
+    selectedQuantity = 1;
+
+    modalQuantity.textContent =
+        selectedQuantity;
+
+
+    // Product image
+
+    modalProductImage.src =
+        selectedProduct.image;
+
+    modalProductImage.alt =
+        selectedProduct.name;
+
+
+    // Product information
+
+    modalProductName.textContent =
+        selectedProduct.name;
+
+    modalProductCategory.textContent =
+        selectedProduct.category;
+
+    modalProductPrice.textContent =
+        formatPrice(selectedProduct.price);
+
+    modalProductDescription.textContent =
+        selectedProduct.description;
+
+
+    // Show modal
+
+    productModal.hidden = false;
+
+    document.body.classList.add("modal-open");
+
+}
+
+
+// -----------------------------------------------------
+// 13. CLOSE PRODUCT MODAL
+// -----------------------------------------------------
+
+function closeProductDetails() {
+
+    productModal.hidden = true;
+
+    document.body.classList.remove("modal-open");
+
+    selectedProduct = null;
+
+}
+
+
+// Close button
+
+if (closeProductModal) {
+
+    closeProductModal.addEventListener(
+        "click",
+        closeProductDetails
+    );
+
+}
+
+
+// Close by clicking outside modal
+
+if (productModal) {
+
+    productModal.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target === productModal
+            ) {
+
+                closeProductDetails();
+
+            }
+
+        }
+    );
+
+}
+
+
+// -----------------------------------------------------
+// 14. PRODUCT CARD CLICK EVENTS
+// -----------------------------------------------------
+
+productGrid.addEventListener(
     "click",
     event => {
 
-        if (event.target === productModal) {
-            closeProductModal();
+
+        // QUICK VIEW
+
+        const quickView =
+            event.target.closest(
+                ".quick-view-button"
+            );
+
+
+        if (quickView) {
+
+            const productId =
+                quickView.dataset.productId;
+
+
+            openProductModal(productId);
+
+            return;
+
         }
+
+
+        // ADD TO CART
+
+        const addButton =
+            event.target.closest(
+                ".add-to-cart-button"
+            );
+
+
+        if (addButton) {
+
+            const productId =
+                addButton.dataset.productId;
+
+
+            const product =
+                products.find(
+                    item =>
+                        item.id === Number(productId)
+                );
+
+
+            if (product) {
+
+                addProductToCart(product, 1);
+
+            }
+
+        }
+
     }
 );
 
-// ======================================
-// INITIALIZE
-// ======================================
+
+// -----------------------------------------------------
+// 15. QUANTITY - DECREASE
+// -----------------------------------------------------
+
+if (modalDecrease) {
+
+    modalDecrease.addEventListener(
+        "click",
+        () => {
+
+            if (selectedQuantity > 1) {
+
+                selectedQuantity--;
+
+                modalQuantity.textContent =
+                    selectedQuantity;
+
+            }
+
+        }
+    );
+
+}
+
+
+// -----------------------------------------------------
+// 16. QUANTITY - INCREASE
+// -----------------------------------------------------
+
+if (modalIncrease) {
+
+    modalIncrease.addEventListener(
+        "click",
+        () => {
+
+            selectedQuantity++;
+
+            modalQuantity.textContent =
+                selectedQuantity;
+
+        }
+    );
+
+}
+
+
+// -----------------------------------------------------
+// 17. ADD SELECTED PRODUCT TO CART
+// -----------------------------------------------------
+
+if (modalAddToCart) {
+
+    modalAddToCart.addEventListener(
+        "click",
+        () => {
+
+            if (!selectedProduct) {
+                return;
+            }
+
+
+            addProductToCart(
+                selectedProduct,
+                selectedQuantity
+            );
+
+
+            closeProductDetails();
+
+        }
+    );
+
+}
+
+
+// -----------------------------------------------------
+// 18. ADD PRODUCT TO CART
+// -----------------------------------------------------
+
+function addProductToCart(product, quantity) {
+
+    /*
+        This function connects app.js
+        to cart.js.
+
+        cart.js will contain the actual
+        cart management logic.
+    */
+
+    if (
+        typeof addToCart === "function"
+    ) {
+
+        addToCart(
+            product,
+            quantity
+        );
+
+    } else {
+
+        console.log(
+            "Product selected:",
+            product.name
+        );
+
+        console.log(
+            "Quantity:",
+            quantity
+        );
+
+    }
+
+}
+
+
+// -----------------------------------------------------
+// 19. READ CATEGORY FROM URL
+// -----------------------------------------------------
+
+function loadCategoryFromURL() {
+
+    const urlParams =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const category =
+        urlParams.get("category");
+
+
+    if (!category) {
+        return;
+    }
+
+
+    const validCategory =
+        products.some(
+            product =>
+                product.category === category
+        );
+
+
+    if (!validCategory) {
+        return;
+    }
+
+
+    currentCategory = category;
+
+
+    categoryButtons.forEach(button => {
+
+        button.classList.remove("active");
+
+
+        if (
+            button.dataset.category === category
+        ) {
+
+            button.classList.add("active");
+
+        }
+
+    });
+
+}
+
+
+// -----------------------------------------------------
+// 20. ESC KEY CLOSES MODAL
+// -----------------------------------------------------
 
 document.addEventListener(
-    "DOMContentLoaded",
-    () => {
+    "keydown",
+    event => {
 
-        renderProducts(products);
+        if (
+            event.key === "Escape" &&
+            productModal &&
+            !productModal.hidden
+        ) {
+
+            closeProductDetails();
+
+        }
 
     }
 );
-```
+
+
+// -----------------------------------------------------
+// 21. INITIALIZE SHOP
+// -----------------------------------------------------
+
+function initializeShop() {
+
+    loadCategoryFromURL();
+
+    filterProducts();
+
+}
+
+
+// Start the shop
+
+initializeShop();

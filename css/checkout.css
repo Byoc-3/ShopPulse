@@ -10,29 +10,6 @@
     overflow: hidden;
 }
 
-/* -------- decorative dashed diagonals (top right flourish) -------- */
-
-.checkout-page::before,
-.checkout-page::after {
-    content: "";
-    position: absolute;
-    top: 40px;
-    right: -40px;
-    width: 260px;
-    height: 0;
-    border-top: 2px dashed var(--color-danger);
-    transform: rotate(28deg);
-    transform-origin: right center;
-    opacity: 0.6;
-    pointer-events: none;
-}
-
-.checkout-page::after {
-    top: 200px;
-    border-top-color: var(--color-success);
-    transform: rotate(-24deg);
-}
-
 /* -------- heading -------- */
 
 .checkout-heading {

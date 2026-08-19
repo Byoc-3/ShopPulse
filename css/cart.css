@@ -6,7 +6,8 @@
     position: fixed;
     inset: 0;
     z-index: 90;
-    opacity: 0;
+    background: rgba(23, 22, 20, 0.5);
+    opacity: 50;
     pointer-events: none;
     transition: opacity 0.2s ease;
 }
@@ -271,6 +272,20 @@
 
 .continue-button:hover {
     color: var(--color-ink);
+}
+
+.cart-item-actions button {
+    margin-bottom: 3px;
+    padding: 3px 8px;
+    background: var(--color-ink);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    transition: background 0.15s ease;
+}
+
+.cart-item-actions button:hover {
+    background: #000;
 }
 
 /* =====================================================

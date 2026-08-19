@@ -11,23 +11,27 @@ const closeErrorModalBtn = document.getElementById('close-error-modal');
 const errorModalBtn = document.getElementById('error-modal-button');
 const successModal = document.getElementById('success-modal');
 
-// Render the order summary using cart data from cart.js
+const deliveryFee = 5000;
+
+// Render the order summary using the real cart data
 function renderCheckoutSummary() {
   checkoutItemsContainer.innerHTML = '';
 
-  cartItems.forEach(item => {
+  cart.forEach(item => {
     const row = document.createElement('div');
     row.classList.add('checkout-item-row');
     row.innerHTML = `
       <span>${item.name} × ${item.quantity}</span>
-      <span>${formatPrice(item.price * item.quantity)}</span>
+      <span>${formatCartPrice(item.price * item.quantity)}</span>
     `;
     checkoutItemsContainer.appendChild(row);
   });
 
-  const { subtotal, total } = getCartTotals();
-  checkoutSubtotal.textContent = formatPrice(subtotal);
-  checkoutTotal.textContent = formatPrice(total);
+  const subtotal = calculateSubtotal();
+  const total = cart.length > 0 ? subtotal + deliveryFee : 0;
+
+  checkoutSubtotal.textContent = formatCartPrice(subtotal);
+  checkoutTotal.textContent = formatCartPrice(total);
 }
 
 // Show error modal with a specific message
@@ -79,7 +83,7 @@ checkoutForm.addEventListener('submit', function(e) {
     document.querySelector('.order-number').textContent = 'Order #' + orderNumber;
 
     // Clear the cart after successful order
-    cartItems = [];
+    cart = [];
     saveCart();
 
     // Show success modal
